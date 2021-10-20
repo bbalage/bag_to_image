@@ -15,15 +15,21 @@ def extract_png_from_single_bag(path, width=1280, height=720):
     frames = pipeline.wait_for_frames()
     frame = frames.get_color_frame()
     image = np.asanyarray(frame.get_data())
+    pipeline.stop()
     return image
 
 
 def extract_and_save_pngs_from_bags(bag_filename, target_dir, suffix='png'):
     for bag_filename in bag_filename:
-        image = extract_png_from_single_bag(bag_filename)
-        image_filename = bag_filename[:-3] + suffix
-        target_path = os.path.join(target_dir, os.path.split(image_filename)[-1])
-        cv2.imwrite(target_path, image)
+        try:
+            image = extract_png_from_single_bag(bag_filename)
+            image_filename = bag_filename[:-3] + suffix
+            target_path = os.path.join(target_dir, os.path.split(image_filename)[-1])
+            cv2.imwrite(target_path, image)
+            # print("Successfully converted: {0}".format(bag_filename))
+        except RuntimeError:
+            print("Could not retrive frame from: {0}".format(bag_filename))
+            
 
 
 def process_directory(source_dir, target_dir):
