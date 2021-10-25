@@ -10,7 +10,7 @@ def extract_png_from_single_bag(path, width=1280, height=720):
     pipeline = rs.pipeline()
     config = rs.config()
     rs.config.enable_device_from_file(config, path)
-    config.enable_stream(rs.stream.color, width, height, rs.format.rgb8, 30)
+    config.enable_stream(rs.stream.color, width, height, rs.format.bgr8, 30)
     pipeline.start(config)
     frames = pipeline.wait_for_frames()
     frame = frames.get_color_frame()
