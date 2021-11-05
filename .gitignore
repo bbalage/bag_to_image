@@ -4,3 +4,4 @@ lib/
 out/
 .idea/
 pyvenv.cfg
+venv/
